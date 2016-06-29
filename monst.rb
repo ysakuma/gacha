@@ -2,6 +2,7 @@ puts "===== #{Time.now} ====="
 require 'open-uri'
 require 'nokogiri'
 require 'optparse'
+require 'yaml'
 options={}
 OptionParser.new { |o|
   o.banner = "Usage: #{$0} [options]"
