@@ -9,7 +9,7 @@ JUSHIN_TH = 20
 
 def send_slack
   text = <<EOS
-<\!here> 今超大だよ！ちなみに
+<\!here> 【#{event_name}】今超大だよ！ちなみに
 #{@probability.map { |k, v| "#{k} => #{v}%"}.join("\n")}
 ね。
 EOS
@@ -22,8 +22,12 @@ def send_api
   send_slack
 end
 
+def event_name
+  @gacha_doc.at_css('.event-name').text
+end
+
 def jushin?
-  @gacha_doc.at_css('.event-name').text =~ /獣神祭/
+  event_name =~ /獣神祭/
 end
 
 @gacha_doc = Nokogiri.Slop(open('http://monnsutogatya.com').read)
