@@ -23,7 +23,7 @@ def send_api
 end
 
 def event_name
-  @gacha_doc.at_css('.event-name').text
+  @gacha_doc.at_css('.event-name').text rescue '開催中のイベント無いみたい'
 end
 
 def jushin?
