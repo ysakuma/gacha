@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'mechanize'  
 require 'nokogiri'
 require 'optparse'
 require 'yaml'
@@ -6,6 +7,7 @@ require 'yaml'
 CONFIG    = YAML.load_file("#{File.expand_path(File.dirname($0))}/config.yml")
 THRESHOLD = ($*[0] || 15).to_i
 JUSHIN_TH = 20
+URL       = 'http://monnsutogatya.com'
 
 def send_slack
   text = <<EOS
@@ -30,7 +32,9 @@ def jushin?
   event_name =~ /獣神祭/
 end
 
-@gacha_doc = Nokogiri.Slop(open('http://monnsutogatya.com').read)
+agent = Mechanize.new  
+page = agent.get(URL)
+@gacha_doc = Nokogiri.Slop(page.body)
 @probability = 3.upto(5).each_with_object({}) do |i, h|
   tr  = @gacha_doc.at_css("#a-box table.report-font tr:nth-child(#{i})")
   key = "m#{$1}" if tr.text =~ /([0-9]{1,2})分間/
