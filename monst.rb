@@ -16,7 +16,7 @@ def send_slack
 ね。
 EOS
   text.gsub!(/\n/, "\\n")
-  cmd = "curl -s -X POST --data-urlencode 'payload={\"channel\": \"#monst-gacha\", \"text\": \"#{text}\"}' #{CONFIG['slack_api_url']}"
+  cmd = "curl -s -X POST --data-urlencode 'payload={\"channel\": \"#monst-gacha\", \"text\": \"#{text}\", \"link_names\": 1}' #{CONFIG['slack_api_url']}"
   `#{cmd}`
 end
 
